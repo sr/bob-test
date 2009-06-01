@@ -3,9 +3,9 @@ require File.dirname(__FILE__) + "/abstract"
 module Bob::Test
   class GitRepo < AbstractSCMRepo
     def create
-      FileUtils.mkdir_p @path
+      FileUtils.mkdir_p(path)
 
-      Dir.chdir(@path) do
+      Dir.chdir(path) do
         system 'git init &>/dev/null'
         system 'git config user.name "John Doe"'
         system 'git config user.email "johndoe@example.org"'
@@ -15,12 +15,8 @@ module Bob::Test
       end
     end
 
-    def destroy
-      FileUtils.rm_rf @path
-    end
-
     def commits
-      Dir.chdir(@path) do
+      Dir.chdir(path) do
         commits = `git log --pretty=oneline`.collect { |l| l.split(" ").first }
         commits.inject([]) do |commits, sha1|
           format  = "---%n:message: >-%n  %s%n:timestamp: %ci%n" +
@@ -31,7 +27,7 @@ module Bob::Test
     end
 
     def head
-      Dir.chdir(@path) do
+      Dir.chdir(path) do
         `git log --pretty=format:%H | head -1`.chomp
       end
     end

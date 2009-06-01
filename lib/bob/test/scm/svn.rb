@@ -28,8 +28,8 @@ module Bob::Test
     end
 
     def destroy
-      FileUtils.rm_r(@remote) if File.directory?(@remote)
-      FileUtils.rm_r(@path) if File.directory?(@path)
+      FileUtils.rm_r(remote) if File.directory?(remote)
+      super
     end
 
     def commits
@@ -42,10 +42,6 @@ module Bob::Test
             :committed_at => Time.parse(commit.at("date").inner_html) }
         }.reverse
       end
-    end
-
-    def head
-      commits.last[:identifier]
     end
 
     alias_method :short_head, :head
