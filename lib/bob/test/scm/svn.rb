@@ -19,11 +19,11 @@ module Bob::Test
     def create
       create_remote
 
-      system "svn checkout file://#{remote} #{path} &>/dev/null"
+      run "svn checkout file://#{remote} #{path}"
 
       add_commit("First commit") do
-        system "echo 'just a test repo' >> README"
-        add    "README"
+        run "echo 'just a test repo' >> README"
+        add "README"
       end
     end
 
@@ -48,19 +48,19 @@ module Bob::Test
 
     protected
       def add(file)
-        system "svn add #{file} &>/dev/null"
+        run "svn add #{file}"
       end
 
       def commit(message)
-        system %Q{svn commit -m "#{message}" &>/dev/null}
-        system "svn up &>/dev/null"
+        run %Q{svn commit -m "#{message}"}
+        run "svn up"
       end
 
     private
       def create_remote
         FileUtils.mkdir_p(SvnRepo.server_root)
 
-        system "svnadmin create #{remote} &>/dev/null"
+        run "svnadmin create #{remote}"
 
         File.open(File.join(remote, "conf", "svnserve.conf"), "w") { |f|
           f.puts "[general]"

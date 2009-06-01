@@ -22,7 +22,7 @@ module Bob::Test
       add_commit "This commit will fail" do
         system "echo '#{build_script(false)}' > test"
         system "chmod +x test"
-        add    "test &>/dev/null"
+        add    "test"
       end
     end
 
@@ -49,6 +49,10 @@ module Bob::Test
 
       def commit(message)
         raise NotImplementedError
+      end
+
+      def run(command)
+        system "#{command} &>/dev/null"
       end
 
       def build_script(successful=true)

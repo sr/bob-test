@@ -6,11 +6,11 @@ module Bob::Test
       FileUtils.mkdir_p(path)
 
       Dir.chdir(path) do
-        system 'git init &>/dev/null'
-        system 'git config user.name "John Doe"'
-        system 'git config user.email "johndoe@example.org"'
-        system 'echo "just a test repo" >> README'
-        add    'README &>/dev/null'
+        run "git init"
+        run "git config user.name 'John Doe'"
+        run "git config user.email 'johndoe@example.org'"
+        run "echo 'just a test repo' >> README"
+        add "README"
         commit "First commit"
       end
     end
@@ -38,11 +38,11 @@ module Bob::Test
 
     protected
       def add(file)
-        system "git add #{file}"
+        run "git add #{file}"
       end
 
       def commit(message)
-        system %Q{git commit -m "#{message}" &>/dev/null}
+        run %Q{git commit -m "#{message}"}
       end
   end
 end
